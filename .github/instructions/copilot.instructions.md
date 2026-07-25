@@ -1,3 +1,13 @@
+# Installation Preferences
+- use npm for package management
+
+# Commands
+- use `npm run dev` to start the frontend
+- instead of `npm` use `nest` for backend commands, e.g. `nest start` to start the backend
+
+# Boundary
+- before any changes are made or modules are installed, you must explain you what you are about to do/install or what will the following command do and ask the user for confirmation.
+
 # Project Context
 - two services for a personal bookmark manager — a private read-later app. A signed-in person
 saves links, organises them into collections, and nobody else can see any of it.
