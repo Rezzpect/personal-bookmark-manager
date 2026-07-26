@@ -5,6 +5,29 @@
 - use `npm run dev` to start the frontend
 - instead of `npm` use `nest` for backend commands, e.g. `nest start` to start the backend
 
+# Project Structure
+- backend/
+	-src/
+		- main.ts
+		- app.module.ts
+		- app.controller.ts
+		- app.service.ts
+		- models/ #this is where controllers, services, and modules for theresources will go
+		- prisma/
+
+# ENV VARIABLE NAMES
+- DATABASE_URL
+- AUTH0_ISSUER
+- AUTH0_AUTHORIZATION_URL
+- AUTH0_TOKEN_URL
+- AUTH0_REGISTRATION_URL
+- AUTH0_REVOCATION_URL
+- AUTH0_CLIENT_ID
+- AUTH0_CALLBACK_URL
+- AUTH0_API_AUDIENCE
+- AUTH0_JWKS_URL
+
+
 # Boundary
 - before any changes are made or modules are installed, you must explain you what you are about to do/install or what will the following command do and ask the user for confirmation.
 
