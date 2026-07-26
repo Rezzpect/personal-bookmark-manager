@@ -15,4 +15,22 @@ export class UserService {
       },
     });
   }
+
+  async findOrCreateFromOidc(id: string, email?: string | null, name?: string | null) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    return this.prisma.user.create({
+      data: {
+        id,
+        email: email ?? null,
+        name: name ?? null,
+      },
+    });
+  }
 }

@@ -1,12 +1,12 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from '../models/user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly userService: UserService,
     private readonly httpService: HttpService,
   ) {}
 
@@ -86,17 +86,7 @@ export class AuthService {
       throw new Error('OIDC subject missing from ID token');
     }
 
-    const existingUser = await this.prisma.user.findUnique({
-      where: { id: sub },
-    });
-
-    const user = existingUser ?? await this.prisma.user.create({
-      data: {
-        id: sub,
-        email: email ?? null,
-        name: name ?? null,
-      },
-    });
+    const user = await this.userService.findOrCreateFromOidc(sub, email, name);
 
     return {
       message: 'Authenticated',
