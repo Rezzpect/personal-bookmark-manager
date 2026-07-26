@@ -1,11 +1,13 @@
-import { Controller, Get, Query, Redirect, Req, Session } from '@nestjs/common';
+import { Controller, Get, Query, Redirect, Session } from '@nestjs/common';
 import { createHash, randomBytes } from 'crypto';
 import { AuthService } from './auth.service';
+import { Public } from './public.decorator';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Get('auth/login')
   @Redirect()
   login(@Session() session: Record<string, any>) {
@@ -20,6 +22,7 @@ export class AuthController {
     return { url: redirectUrl, statusCode: 302 };
   }
 
+  @Public()
   @Get('callback')
   async callback(@Query('code') code: string, @Query('state') state: string, @Session() session: Record<string, any>) {
     const result = await this.authService.handleCallback(code, state, session);
