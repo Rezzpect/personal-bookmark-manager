@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Redirect, Session } from '@nestjs/common';
+import { Controller, Get, Query, Redirect, Res, Session } from '@nestjs/common';
 import { createHash, randomBytes } from 'crypto';
 import { AuthService } from './auth.service';
 import { Public } from './public.decorator';
+import type { Response } from 'express';
 
 @Controller()
 export class AuthController {
@@ -24,11 +25,28 @@ export class AuthController {
 
   @Public()
   @Get('callback')
-  async callback(@Query('code') code: string, @Query('state') state: string, @Session() session: Record<string, any>) {
+  async callback(
+    @Query('code') code: string,
+    @Query('state') state: string,
+    @Session() session: Record<string, any>,
+    @Res() res: Response,
+  ) {
     const result = await this.authService.handleCallback(code, state, session);
     delete session.pkce_code_verifier;
     delete session.pkce_state;
-    return result;
+
+    const accessToken = result.access_token;
+    if (accessToken && typeof accessToken === 'string') {
+      res.cookie('access_token', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      });
+    }
+
+    const redirectUrl = process.env.APP_URL ?? '/';
+    return res.redirect(redirectUrl);
   }
 
   private sha256(value: string) {

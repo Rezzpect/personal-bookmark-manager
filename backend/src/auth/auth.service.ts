@@ -88,16 +88,7 @@ export class AuthService {
 
     const user = await this.userService.findOrCreateFromOidc(sub, email, name);
 
-    return {
-      message: 'Authenticated',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-      },
-      tokens,
-      state,
-    };
+    return tokens
   }
 
   private decodeJwtPayload(token: string) {
