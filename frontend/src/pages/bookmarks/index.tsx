@@ -21,6 +21,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import axiosInstance from '../../utils/axiosInstance';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Collection {
   id: string;
@@ -61,6 +62,7 @@ export default function BookmarksPage() {
 
   const [selectedBookmark, setSelectedBookmark] = useState<Bookmark | null>(null);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const fetchCollections = async () => {
     try {
@@ -156,6 +158,9 @@ export default function BookmarksPage() {
           flexWrap: 'wrap',
         }}
       >
+        <Button variant="contained" onClick={() => navigate('/')}>
+          Return
+        </Button>
         <Typography variant="h4" component="h1">
           Bookmarks
         </Typography>

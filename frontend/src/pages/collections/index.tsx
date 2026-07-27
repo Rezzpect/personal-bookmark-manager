@@ -19,6 +19,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import axiosInstance from '../../utils/axiosInstance';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Collection {
   id: string;
@@ -54,6 +55,7 @@ export default function CollectionsPage() {
   const [bookmarksError, setBookmarksError] = useState<string | null>(null);
 
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const fetchCollections = async () => {
     setIsLoading(true);
@@ -135,6 +137,9 @@ export default function CollectionsPage() {
           mb: 3,
         }}
       >
+        <Button variant="contained" onClick={() => navigate('/')}>
+          Return
+        </Button>
         <Typography variant="h4" component="h1">
           Collections
         </Typography>
