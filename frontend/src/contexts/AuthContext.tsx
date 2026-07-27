@@ -47,7 +47,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = () => {
-    // Backend owns the full OIDC redirect + sets the httpOnly cookie on callback
     window.location.href = `${SERVICE_URL}/auth/login`;
   };
 

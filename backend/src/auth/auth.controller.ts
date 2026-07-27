@@ -23,6 +23,13 @@ export class AuthController {
     return { url: redirectUrl, statusCode: 302 };
   }
 
+  @Get('auth/logout')
+  @Redirect()
+  logout(@Session() session: Record<string, any>) {
+    const redirectUrl = process.env.AUTH0_ISSUER + `v2/logout?client_id=${process.env.AUTH0_CLIENT_ID}&returnTo=${encodeURIComponent(process.env.AUTH0_LOGOUT_URL ?? '/')}`;
+    return { url: redirectUrl, statusCode: 302 };
+  }
+
   @Public()
   @Get('callback')
   async callback(
@@ -39,7 +46,6 @@ export class AuthController {
     if (idToken && typeof idToken === 'string') {
       res.cookie('id_token', idToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 3600000
       });

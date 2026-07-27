@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography, CircularProgress } from '@mui/material'
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function MainPage() {
-    const { user, isAuthenticated, isLoading, login } = useAuth();
+    const { user, isAuthenticated, isLoading, login, logout } = useAuth();
     const navigate = useNavigate();
 
     return (
@@ -39,7 +39,7 @@ export default function MainPage() {
                             <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                                 Welcome back{user?.email ? `, ${user.email}` : ''}.
                             </Typography>
-                            <Stack direction="row" spacing={2}>
+                            <Stack direction="column" spacing={2}>
                                 <Button
                                     variant="contained"
                                     size="large"
@@ -53,6 +53,14 @@ export default function MainPage() {
                                     onClick={() => navigate('/bookmarks')}
                                 >
                                     Go to Bookmarks
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    size="large"
+                                    sx={{ background: 'red', color: 'white' }}
+                                    onClick={logout}
+                                >
+                                    Log out
                                 </Button>
                             </Stack>
                         </>
