@@ -71,6 +71,7 @@ export class AuthService {
       id_token?: string;
       access_token?: string;
       refresh_token?: string;
+      expires_in?: number;
     };
 
     if (!tokens.id_token) {

@@ -3,12 +3,15 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
 import { UserService } from '../models/user/user.service';
+import { Request } from 'express';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly userService: UserService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        cookieExtractor
+      ]),
       ignoreExpiration: false,
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
@@ -43,4 +46,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.findOne(payload.sub);
     return user;
   }
+}
+
+function cookieExtractor(req: Request): string | null {
+  return req?.cookies?.['id_token'] ?? null;
 }

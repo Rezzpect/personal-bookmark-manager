@@ -5,15 +5,15 @@ import { UserService } from './user.service';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get('me')
-  async me(@Req() req: Request & { userId?: string }) {
-    if (!req.userId) {
+  async me(@Req() req: Request & { user: { id?: string } }) {
+    if (!req.user?.id) {
       throw new Error('No authenticated user');
     }
 
-    return this.userService.findOne(req.userId);
+    return this.userService.findOne(req.user?.id);
   }
 
   @Put('users')

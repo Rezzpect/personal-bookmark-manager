@@ -35,13 +35,13 @@ export class AuthController {
     delete session.pkce_code_verifier;
     delete session.pkce_state;
 
-    const accessToken = result.access_token;
-    if (accessToken && typeof accessToken === 'string') {
-      res.cookie('access_token', accessToken, {
+    const idToken = result.id_token;
+    if (idToken && typeof idToken === 'string') {
+      res.cookie('id_token', idToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        maxAge: result.expires_in
       });
     }
 
