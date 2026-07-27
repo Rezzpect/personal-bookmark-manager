@@ -2,20 +2,28 @@ import CollectionsPage from '../pages/collections';
 import MainPage from '../pages/main';
 import BookmarksPage from '../pages/bookmarks';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
+import RequireAuth from '../components/authguard';
 
 function Routes() {
     return useRoutes([
         {
             path: '/',
-            element: <MainPage/>,
+            element: <MainPage />,
         },
         {
             path: '/collections',
-            element: <CollectionsPage/>
+            element:
+                <RequireAuth>
+                    <CollectionsPage />
+                </RequireAuth>
         },
         {
             path: '/bookmarks',
-            element: <BookmarksPage/>
+            element:
+                <RequireAuth>
+                    <BookmarksPage />
+                </RequireAuth>
+
         }
     ]);
 }
