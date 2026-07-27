@@ -15,6 +15,7 @@ import {
   TextField,
   CircularProgress,
   Alert,
+  Link as MuiLink
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axiosInstance from '../../utils/axiosInstance';
@@ -61,9 +62,9 @@ export default function CollectionsPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const { data } = await axiosInstance.get<Collection[]>('/collections',{
-        params:{
-            ownerId:user?.id
+      const { data } = await axiosInstance.get<Collection[]>('/collections', {
+        params: {
+          ownerId: user?.id
         }
       });
       setCollections(data);
@@ -128,7 +129,7 @@ export default function CollectionsPage() {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: 'auto', mt: 6, px: 2 }}>
+    <Box sx={{ mt: 6, px: 2 }}>
       <Box
         sx={{
           display: 'flex',
@@ -168,6 +169,10 @@ export default function CollectionsPage() {
             <ListItem
               key={collection.id}
               disablePadding
+              sx={{
+                background: 'grey',
+                color: 'black'
+              }}
               secondaryAction={
                 <IconButton
                   edge="end"
@@ -221,7 +226,7 @@ export default function CollectionsPage() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>{selectedCollection?.name}</DialogTitle>
+        <DialogTitle sx={{ color: 'black' }}>{selectedCollection?.name}</DialogTitle>
         <DialogContent>
           {isBookmarksLoading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -236,12 +241,20 @@ export default function CollectionsPage() {
           ) : (
             <List>
               {bookmarks.map((bookmark) => (
+                <>
                 <ListItem key={bookmark.id} disablePadding>
                   <ListItemText
                     primary={bookmark.title}
-                    secondary={bookmark.url}
                   />
                 </ListItem>
+                <MuiLink
+                href={bookmark.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {bookmark.url}
+              </MuiLink>
+              </>
               ))}
             </List>
           )}

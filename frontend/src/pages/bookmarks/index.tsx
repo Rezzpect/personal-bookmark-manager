@@ -147,7 +147,7 @@ export default function BookmarksPage() {
     collections.find((c) => c.id === collectionId)?.name;
 
   return (
-    <Box sx={{ maxWidth: 700, mx: 'auto', mt: 6, px: 2 }}>
+    <Box sx={{ mt: 6, px: 2 }}>
       <Box
         sx={{
           display: 'flex',
@@ -174,7 +174,37 @@ export default function BookmarksPage() {
         label="Filter by collection"
         value={filterCollectionId}
         onChange={(e) => setFilterCollectionId(e.target.value)}
-        sx={{ mb: 3, minWidth: 240 }}
+        sx={{
+    mb: 3,
+    minWidth: 240,
+    // Label color
+    '& .MuiInputLabel-root': {
+      color: 'white',
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'white',
+    },
+    // Input text color
+    '& .MuiOutlinedInput-input': {
+      color: 'white',
+    },
+    // Border colors
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'white',
+      },
+    },
+    // Dropdown arrow icon color
+    '& .MuiSvgIcon-root': {
+      color: 'white',
+    },
+  }}
       >
         <MenuItem value={NO_FILTER}>All bookmarks</MenuItem>
         {collections.map((c) => (
@@ -201,6 +231,10 @@ export default function BookmarksPage() {
           {bookmarks.map((bookmark) => (
             <ListItem
               key={bookmark.id}
+              sx={{
+                background:'grey',
+                color:'black'
+              }}
               disablePadding
               secondaryAction={
                 <IconButton
@@ -291,7 +325,7 @@ export default function BookmarksPage() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>{selectedBookmark?.title}</DialogTitle>
+        <DialogTitle sx={{color:'black'}}>{selectedBookmark?.title}</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
         >
