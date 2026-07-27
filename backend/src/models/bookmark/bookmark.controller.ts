@@ -2,36 +2,41 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@
 import { CreateBookmarkDto, UpdateBookmarkDto } from './bookmark.dto';
 import { BookmarkService } from './bookmark.service';
 
-@Controller('bookmarks')
+@Controller('')
 export class BookmarkController {
   constructor(private readonly bookmarkService: BookmarkService) {}
 
-  @Get()
+  @Get('/bookmarks')
   list(@Query('collectionId') collectionId?: string, @Query('ownerId') ownerId?: string) {
     return this.bookmarkService.findAll({ collectionId, ownerId });
   }
 
-  @Get(':id')
+  @Get('/bookmarks/:id')
   getOne(@Param('id') id: string) {
     return this.bookmarkService.findOne(id);
   }
 
-  @Post()
+  @Get('/collections/:id/bookmarks')
+  listFromCollection(@Param('id') id: string) {
+    return this.bookmarkService.findByCollectionId(id);
+  }
+
+  @Post('/bookmarks')
   create(@Body() createBookmarkDto: CreateBookmarkDto) {
     return this.bookmarkService.create(createBookmarkDto);
   }
 
-  @Put(':id')
+  @Put('/bookmarks/:id')
   updatePut(@Param('id') id: string, @Body() updateBookmarkDto: UpdateBookmarkDto) {
     return this.bookmarkService.update(id, updateBookmarkDto);
   }
 
-  @Patch(':id')
+  @Patch('/bookmarks/:id')
   updatePatch(@Param('id') id: string, @Body() updateBookmarkDto: UpdateBookmarkDto) {
     return this.bookmarkService.update(id, updateBookmarkDto);
   }
 
-  @Delete(':id')
+  @Delete('/bookmarks/:id')
   remove(@Param('id') id: string) {
     return this.bookmarkService.remove(id);
   }

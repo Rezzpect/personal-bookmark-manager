@@ -16,6 +16,13 @@ export class BookmarkService {
     });
   }
 
+  async findByCollectionId(collectionId: string) {
+    return this.prisma.bookmark.findMany({
+      where: { collectionId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
   async findOne(id: string) {
     const bookmark = await this.prisma.bookmark.findUnique({ where: { id } });
 

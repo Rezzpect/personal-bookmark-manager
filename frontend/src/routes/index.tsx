@@ -1,4 +1,6 @@
+import CollectionsPage from '../pages/collections';
 import MainPage from '../pages/main';
+import BookmarksPage from '../pages/bookmarks';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 
 function Routes() {
@@ -7,10 +9,14 @@ function Routes() {
             path: '/',
             element: <MainPage/>,
         },
-        // {
-        //     path: '*',
-        //     element: <PageNotFound/>
-        // }
+        {
+            path: '/collections',
+            element: <CollectionsPage/>
+        },
+        {
+            path: '/bookmarks',
+            element: <BookmarksPage/>
+        }
     ]);
 }
 
