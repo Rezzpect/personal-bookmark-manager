@@ -54,6 +54,7 @@ export default function CollectionsPage() {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [isBookmarksLoading, setIsBookmarksLoading] = useState(false);
   const [bookmarksError, setBookmarksError] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -127,6 +128,21 @@ export default function CollectionsPage() {
     setBookmarks([]);
     setBookmarksError(null);
   };
+
+  const handleCopyBookmarks = async () => {
+    if (!selectedCollection) return;
+    const lines = [
+      selectedCollection.name,
+      ...bookmarks.map((b, i) => `${i + 1}.${b.title} : ${b.url}`),
+    ];
+    try {
+      await navigator.clipboard.writeText(lines.join('\n'));
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch {
+      setBookmarksError('Could not copy to clipboard.');
+    }
+  }
 
   return (
     <Box sx={{ mt: 6, px: 2 }}>
@@ -242,24 +258,35 @@ export default function CollectionsPage() {
             <List>
               {bookmarks.map((bookmark) => (
                 <>
-                <ListItem key={bookmark.id} disablePadding>
-                  <ListItemText
-                    primary={bookmark.title}
-                  />
-                </ListItem>
-                <MuiLink
-                href={bookmark.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {bookmark.url}
-              </MuiLink>
-              </>
+                  <ListItem key={bookmark.id} disablePadding>
+                    <ListItemText
+                      primary={bookmark.title}
+                    />
+                  </ListItem>
+                  <MuiLink
+                    href={bookmark.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {bookmark.url}
+                  </MuiLink>
+                </>
               ))}
             </List>
           )}
         </DialogContent>
         <DialogActions>
+          {copySuccess && (
+            <Typography variant="caption" color="success.main" sx={{ mr: 'auto' }}>
+              Copied!
+            </Typography>
+          )}
+          <Button
+            onClick={handleCopyBookmarks}
+            disabled={bookmarks.length === 0 || isBookmarksLoading}
+          >
+            Copy
+          </Button>
           <Button onClick={handleCloseBookmarksModal}>Close</Button>
         </DialogActions>
       </Dialog>
