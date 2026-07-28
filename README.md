@@ -4,7 +4,7 @@
 cd backend
 npm install
 ```
-database setup:
+database setup (Please ensure you have DATABASE_URL in your backend .env before running these commands):
 ```bash
 npx prisma generate
 npx prisma migrate dev
