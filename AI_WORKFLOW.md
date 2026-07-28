@@ -17,6 +17,7 @@
   4. Implement authguard to prevent unauthorized users from accessing private information in the database
 
 - After some time working on the Authguard feature, unfortunately, **my Github Copilot's token for the Free Plan ran out**
+- Admittedly, I barely work on the API design
 
 ## Frontend Workflow
 - For this part, since my Github Copilot token ran out, I decided to switch to using the Free Plan of Claude instead (which is not an agentic AI) to implement features and fix any bugs I found later on
